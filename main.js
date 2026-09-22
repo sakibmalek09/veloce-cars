@@ -92,26 +92,29 @@
   );
   $$("[data-count]").forEach((el) => countObs.observe(el));
 
-  /* ---------- Color configurator ---------- */
+  /* ---------- Color configurator (SVG paint) ---------- */
   const car = $("#configCar");
   const halo = $("#configHalo");
   const nameEl = $("#configName");
   const stage = $(".configurator__stage");
   if (car && halo && nameEl) {
-    const tint = $("#configTint");
     const applySwatch = (sw) => {
+      if (!sw) return;
       $(".swatch.is-active")?.classList.remove("is-active");
       sw.classList.add("is-active");
-      // Real "repaint": grayscale base image + color blend layer
-      if (tint) {
-        tint.style.setProperty("--paint", sw.dataset.color);
-        tint.style.setProperty("--paint-strength", sw.dataset.strength || "0.9");
-      }
+      // Pixel-perfect repaint: body panels + calipers read the --paint variable
+      car.style.setProperty("--paint", sw.dataset.color);
       nameEl.textContent = sw.dataset.name;
-      nameEl.style.color = sw.dataset.color;
+      // only tint the title when the paint is bright enough to stay readable
+      const c = sw.dataset.color.replace("#", "");
+      const [r, g, b] = [0, 2, 4].map((i) => parseInt(c.slice(i, i + 2), 16));
+      nameEl.style.color = (r * 299 + g * 587 + b * 114) / 1000 > 80 ? sw.dataset.color : "";
       stage.style.setProperty("--halo", sw.dataset.color + "55");
       stage.classList.add("is-painted");
-      // little bounce on the car
+      // sheen sweep + subtle bounce on repaint
+      car.classList.remove("is-sheen");
+      void car.getBoundingClientRect(); // force reflow so the sweep restarts
+      car.classList.add("is-sheen");
       car.style.transform = "scale(0.985)";
       setTimeout(() => (car.style.transform = ""), 180);
     };

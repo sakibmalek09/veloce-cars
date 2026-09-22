@@ -631,6 +631,13 @@ button { font: inherit; cursor: pointer; }
   border-radius: var(--radius);
   overflow: hidden;
   border: 1px solid var(--line);
+  background:
+    radial-gradient(ellipse at 50% 100%, rgba(255,255,255,0.05), transparent 55%),
+    radial-gradient(ellipse at 50% 22%, rgba(255,255,255,0.045), transparent 60%),
+    linear-gradient(180deg, #101318 0%, #0a0d11 58%, #060809 100%);
+  padding: clamp(10px, 2.5vw, 26px);
+  display: grid;
+  place-items: center;
 }
 
 .configurator__halo {
@@ -652,16 +659,44 @@ button { font: inherit; cursor: pointer; }
   transition: filter 0.7s ease, transform 0.4s var(--ease-out);
 }
 
-.configurator__tint {
-  position: absolute;
-  inset: 0;
-  background: var(--paint, #0b0d10);
-  mix-blend-mode: color;
-  opacity: var(--paint-strength, 0.9);
-  pointer-events: none;
-  transition: background 0.6s ease, opacity 0.6s ease;
-  -webkit-mask-image: radial-gradient(ellipse 72% 30% at 50% 61%, #000 48%, transparent 72%);
-  mask-image: radial-gradient(ellipse 72% 30% at 50% 61%, #000 48%, transparent 72%);
+/* --- SVG hypercar --- */
+.car-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+  transition: transform 0.4s var(--ease-out);
+}
+
+.car-paint {
+  fill: var(--paint, #0b0d10);
+  transition: fill 0.7s ease;
+}
+
+.car-rimring { stroke: rgba(255,255,255,.14); stroke-width: 1.5; }
+
+.car-caliper {
+  fill: var(--paint, #0b0d10);
+  filter: brightness(1.9) saturate(1.4);
+  transition: fill 0.7s ease;
+}
+
+.car-sheen {
+  opacity: 0;
+}
+
+.car-svg.is-sheen .car-sheen {
+  animation: carSheen 0.9s var(--ease-out) forwards;
+}
+
+@keyframes carSheen {
+  from { transform: translateX(0); opacity: 0; }
+  15%  { opacity: 0.9; }
+  to   { transform: translateX(1340px); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .car-svg.is-sheen .car-sheen { animation: none; }
 }
 
 .configurator__shadow {
@@ -670,6 +705,8 @@ button { font: inherit; cursor: pointer; }
   height: 10%;
   background: radial-gradient(ellipse, rgba(0,0,0,0.55), transparent 70%);
 }
+
+.configurator__stage .configurator__shadow { display: none; }
 
 .configurator__panel h3.configurator__model {
   font-family: var(--font-display);

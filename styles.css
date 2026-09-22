@@ -725,7 +725,7 @@ button { font: inherit; cursor: pointer; }
 .swatches { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 28px; }
 
 .swatch {
-  width: 44px; height: 44px;
+  width: 32px; height: 32px;
   border-radius: 50%;
   border: 2px solid rgba(255, 255, 255, 0.15);
   background: var(--c);
@@ -1059,7 +1059,6 @@ button { font: inherit; cursor: pointer; }
 @media (max-width: 480px) {
   .footer__grid { grid-template-columns: 1fr; gap: 28px; }
   .configurator__meta { gap: 28px; }
-  .swatch { width: 40px; height: 40px; }
 }
 
 /* ---------- Reduced motion ---------- */

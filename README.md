@@ -82,3 +82,8 @@ git push -u origin main
   swap in your own assets for production use.
 - The reserve form is a front-end demo — wire it to Formspree/Netlify Forms
   to collect real submissions.
+
+## 🔗 More projects
+
+- **[First4Tapes](https://github.com/sakibmalek09/first4tapes)** — static
+e-commerce site for packaging tapes, stretch films and accessories.

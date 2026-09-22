@@ -1,10 +1,13 @@
 # VELOCE — Electric Hypercars
 
+> **🔴 Live site: [https://sakibmalek09.github.io/veloce-cars/](https://sakibmalek09.github.io/veloce-cars/)**
+
 A fully responsive, zero-dependency landing page for a (fictional) electric
 hypercars brand. Pure HTML + CSS + vanilla JS — no build step, no frameworks.
 
 ![Tech](https://img.shields.io/badge/stack-HTML%20%2B%20CSS%20%2B%20JS-e10600)
 ![Deps](https://img.shields.io/badge/dependencies-0-brightgreen)
+![Live](https://img.shields.io/badge/▶_live_site-veloce--cars-e10600?logo=githubpages&logoColor=white)](https://sakibmalek09.github.io/veloce-cars/)
 
 ## ✨ Features
 

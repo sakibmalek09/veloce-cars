@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="VELOCE — Precision-built electric hypercars. 1,200 hp, 0–100 in 1.9s. Explore the Veloce GT-R, Apex S and Volt R and paint your dream build." />
+  <meta name="theme-color" content="#050607" />
+  <title>VELOCE — Electric Hypercars</title>
+
+  <!-- Open Graph / social preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="VELOCE" />
+  <meta property="og:title" content="VELOCE — Electric Beyond Limits" />
+  <meta property="og:description" content="1,200 hp of pure electric fury. 0–100 km/h in 1.9s. Configure your Veloce in six finishes." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1200&h=630&fit=crop&q=80" />
+  <meta property="og:image:alt" content="Veloce GT-R hypercar at night" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="VELOCE — Electric Beyond Limits" />
+  <meta name="twitter:description" content="1,200 hp of pure electric fury. 0–100 km/h in 1.9s. Configure your Veloce in six finishes." />
+  <meta name="twitter:image" content="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1200&h=630&fit=crop&q=80" />
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- ===== PRELOADER ===== -->
+  <div class="preloader" id="preloader">
+    <div class="preloader__ring"></div>
+    <div class="preloader__text">VELOCE</div>
+  </div>
+
+  <!-- ===== CUSTOM CURSOR ===== -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="nav" id="navbar">
+    <a class="nav__logo" href="#top">V<span>Ω</span>LCE</a>
+
+    <nav class="nav__links" id="navLinks">
+      <a href="#models">Models</a>
+      <a href="#specs">Performance</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#contact" class="btn btn--sm">Reserve</a>
+    </nav>
+
+    <button class="nav__burger" id="burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- ===== MOBILE MENU ===== -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#models">Models</a>
+    <a href="#specs">Performance</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#contact" class="btn">Reserve Now</a>
+  </div>
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="top">
+    <video class="hero__video" autoplay muted loop playsinline
+      poster="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1920&q=80">
+      <source src="https://assets.mixkit.co/videos/preview/mixkit-going-down-a-curved-highway-through-a-mountain-range-41576-large.mp4" type="video/mp4" />
+    </video>
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+      <p class="hero__eyebrow">The Future Of Velocity</p>
+      <h1 class="hero__title">
+        <span class="line"><span>ELECTRIC</span></span>
+        <span class="line"><span>BEYOND</span></span>
+        <span class="line"><span class="accent">LIMITS</span></span>
+      </h1>
+      <p class="hero__sub">0–100 km/h in 1.9s. 1,200 hp of pure electric fury.
+        This is the new definition of speed.</p>
+      <div class="hero__cta">
+        <a href="#models" class="btn btn--primary">Explore Models</a>
+        <a href="#specs" class="btn btn--ghost">The Numbers <span class="arrow">→</span></a>
+      </div>
+
+      <div class="hero__stats">
+        <div class="stat"><span class="stat__num" data-count="1200">0</span><span class="stat__label">Horsepower</span></div>
+        <div class="stat"><span class="stat__num" data-count="1.9" data-decimals="1">0</span><span class="stat__label">0–100 s</span></div>
+        <div class="stat"><span class="stat__num" data-count="402" data-suffix="">0</span><span class="stat__label">Top speed</span></div>
+      </div>
+    </div>
+
+    <div class="hero__scroll">
+      <span></span>Scroll
+    </div>
+  </section>
+
+  <!-- ===== MARQUEE ===== -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <span>VELOCE GT-R — 1200 HP — 1.9S — 402 KM/H — APEX S — 1050 HP — VOLT R — TRACK EDITION —&nbsp;</span>
+      <span>VELOCE GT-R — 1200 HP — 1.9S — 402 KM/H — APEX S — 1050 HP — VOLT R — TRACK EDITION —&nbsp;</span>
+    </div>
+  </div>
+
+  <!-- ===== MODELS ===== -->
+  <section class="models section" id="models">
+    <div class="section-head">
+      <p class="section-head__eyebrow">The Lineup</p>
+      <h2 class="section-head__title">Choose Your <em>Machine</em></h2>
+    </div>
+
+    <div class="models__grid">
+      <!-- Model card 1 -->
+      <article class="model-card" data-model="gtr" data-tilt>
+        <div class="model-card__visual">
+          <div class="model-card__glow"></div>
+          <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=900&q=80" alt="Veloce GT-R hypercar" loading="lazy" />
+        </div>
+        <div class="model-card__body">
+          <div class="model-card__head">
+            <h3>Veloce GT-R</h3>
+            <span class="tag">Flagship</span>
+          </div>
+          <p class="model-card__desc">Our apex predator. Quad-motor torque vectoring and a carbon monocoque that weighs less than you do.</p>
+          <ul class="model-card__specs">
+            <li><strong>1,200</strong> hp</li>
+            <li><strong>1.9</strong> s 0–100</li>
+            <li><strong>402</strong> km/h</li>
+          </ul>
+          <div class="model-card__foot">
+            <span class="model-card__price">$289,000</span>
+            <a href="#contact" class="btn btn--sm">Reserve</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Model card 2 -->
+      <article class="model-card" data-model="apex" data-tilt>
+        <div class="model-card__visual">
+          <div class="model-card__glow"></div>
+          <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=900&q=80" alt="Apex S grand tourer" loading="lazy" />
+        </div>
+        <div class="model-card__body">
+          <div class="model-card__head">
+            <h3>Apex S</h3>
+            <span class="tag tag--alt">Grand Tourer</span>
+          </div>
+          <p class="model-card__desc">Continental range with hypercar pace. 700 km of effortless, silent, brutal performance.</p>
+          <ul class="model-card__specs">
+            <li><strong>1,050</strong> hp</li>
+            <li><strong>2.4</strong> s 0–100</li>
+            <li><strong>700</strong> km range</li>
+          </ul>
+          <div class="model-card__foot">
+            <span class="model-card__price">$214,000</span>
+            <a href="#contact" class="btn btn--sm">Reserve</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Model card 3 -->
+      <article class="model-card" data-model="volt" data-tilt>
+        <div class="model-card__visual">
+          <div class="model-card__glow"></div>
+          <img src="https://images.unsplash.com/photo-1493238792000-8113da705763?w=900&q=80" alt="Volt R track edition" loading="lazy" />
+        </div>
+        <div class="model-card__body">
+          <div class="model-card__head">
+            <h3>Volt R</h3>
+            <span class="tag tag--danger">Track Only</span>
+          </div>
+          <p class="model-card__desc">No plates. No compromise. A downforce monster with active aero that generates 1,000 kg at speed.</p>
+          <ul class="model-card__specs">
+            <li><strong>890</strong> hp</li>
+            <li><strong>2.1</strong> s 0–100</li>
+            <li><strong>1000</strong> kg downforce</li>
+          </ul>
+          <div class="model-card__foot">
+            <span class="model-card__price">$196,000</span>
+            <a href="#contact" class="btn btn--sm">Reserve</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== SHOWCASE / CONFIGURATOR ===== -->
+  <section class="showcase section" id="showcase">
+    <div class="section-head">
+      <p class="section-head__eyebrow">Make It Yours</p>
+      <h2 class="section-head__title">Paint It <em>Your Way</em></h2>
+    </div>
+
+    <div class="configurator">
+      <div class="configurator__stage">
+        <div class="configurator__halo" id="configHalo"></div>
+        <img id="configCar"
+          src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=1200&q=80"
+          alt="Configurable Veloce" />
+        <div class="configurator__tint" id="configTint"></div>
+        <div class="configurator__shadow"></div>
+      </div>
+
+      <div class="configurator__panel">
+        <h3 class="configurator__model" id="configName">Midnight Black</h3>
+        <p class="configurator__hint">Select a finish</p>
+        <div class="swatches">
+          <button class="swatch is-active" data-color="#0b0d10" data-strength="0.55" data-name="Midnight Black" style="--c:#0b0d10"></button>
+          <button class="swatch" data-color="#c1121f" data-strength="0.92" data-name="Inferno Red" style="--c:#c1121f"></button>
+          <button class="swatch" data-color="#1e3a8a" data-strength="0.95" data-name="Riviera Blue" style="--c:#1e3a8a"></button>
+          <button class="swatch" data-color="#e8e8e8" data-strength="0.25" data-name="Glacier White" style="--c:#f2f2f2"></button>
+          <button class="swatch" data-color="#22c55e" data-strength="0.95" data-name="Toxic Green" style="--c:#22c55e"></button>
+          <button class="swatch" data-color="#f59e0b" data-strength="0.9" data-name="Solar Orange" style="--c:#f59e0b"></button>
+        </div>
+        <div class="configurator__meta">
+          <div><span id="configPrice">$289,000</span><small>Est. price</small></div>
+          <div><span id="configRange">620 km</span><small>Range (WLTP)</small></div>
+        </div>
+        <a href="#contact" class="btn btn--primary configurator__cta">Book a Test Drive</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SPECS COUNTERS ===== -->
+  <section class="specs section" id="specs">
+    <div class="section-head">
+      <p class="section-head__eyebrow">Obsessive Engineering</p>
+      <h2 class="section-head__title">Performance, <em>Quantified</em></h2>
+    </div>
+
+    <div class="specs__grid">
+      <div class="spec reveal">
+        <span class="spec__num" data-count="1200">0</span><span class="spec__unit">hp</span>
+        <h4>Peak Output</h4>
+        <p>Four independent motors delivering vectorized torque in milliseconds.</p>
+      </div>
+      <div class="spec reveal">
+        <span class="spec__num" data-count="1.9" data-decimals="1">0</span><span class="spec__unit">s</span>
+        <h4>0–100 km/h</h4>
+        <p>Launch control with sub-10ms traction recalibration at 200 Hz.</p>
+      </div>
+      <div class="spec reveal">
+        <span class="spec__num" data-count="402">0</span><span class="spec__unit">km/h</span>
+        <h4>Top Speed</h4>
+        <p>Active aero folds flush above 250 km/h for minimum drag.</p>
+      </div>
+      <div class="spec reveal">
+        <span class="spec__num" data-count="120">0</span><span class="spec__unit">kWh</span>
+        <h4>Structural Pack</h4>
+        <p>800V architecture, 10–80% in 18 minutes at 350 kW.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GALLERY ===== -->
+  <section class="gallery section" id="gallery">
+    <div class="section-head">
+      <p class="section-head__eyebrow">In The Wild</p>
+      <h2 class="section-head__title">The <em>Gallery</em></h2>
+    </div>
+
+    <div class="gallery__grid">
+      <figure class="gallery__item reveal"><img src="https://images.unsplash.com/photo-1494905998402-395d579af36f?w=900&q=80" alt="Car front detail" loading="lazy" /></figure>
+      <figure class="gallery__item reveal"><img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=900&q=80" alt="Interior cockpit" loading="lazy" /></figure>
+      <figure class="gallery__item reveal"><img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=900&q=80" alt="Rear at night" loading="lazy" /></figure>
+      <figure class="gallery__item reveal"><img src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=900&q=80" alt="Wheel detail" loading="lazy" /></figure>
+      <figure class="gallery__item reveal"><img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?w=900&q=80" alt="On mountain road" loading="lazy" /></figure>
+      <figure class="gallery__item reveal"><img src="https://images.unsplash.com/photo-1542282088-fe8426682b8f?w=900&q=80" alt="Studio shot" loading="lazy" /></figure>
+    </div>
+  </section>
+
+  <!-- ===== TESTIMONIALS ===== -->
+  <section class="reviews section" id="reviews">
+    <div class="section-head">
+      <p class="section-head__eyebrow">Word On The Street</p>
+      <h2 class="section-head__title">Drivers <em>Speak</em></h2>
+    </div>
+
+    <div class="slider" id="reviewSlider">
+      <div class="slider__track" id="sliderTrack">
+        <blockquote class="review">
+          <div class="review__stars">★★★★★</div>
+          <p>“It doesn't accelerate — it detonates. Nothing on the road prepares you for the GT-R's launch.”</p>
+          <footer><strong>— Marcus Vale</strong><span>MotorTrend, Test Driver</span></footer>
+        </blockquote>
+        <blockquote class="review">
+          <div class="review__stars">★★★★★</div>
+          <p>“The Apex S covered 690 km in a day and never asked to rest. Silent violence is the only way to describe it.”</p>
+          <footer><strong>— Elena Kovač</strong><span>Grand Touring Editor</span></footer>
+        </blockquote>
+        <blockquote class="review">
+          <div class="review__stars">★★★★★</div>
+          <p>“Track mode rewrote my understanding of grip. The Volt R corner-flat, on rails, at speeds that should be illegal.”</p>
+          <footer><strong>— Dario Fontaine</strong><span>Pro Racing Driver</span></footer>
+        </blockquote>
+      </div>
+      <div class="slider__nav">
+        <button class="slider__btn" id="prevReview" aria-label="Previous review">←</button>
+        <div class="slider__dots" id="sliderDots"></div>
+        <button class="slider__btn" id="nextReview" aria-label="Next review">→</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA / CONTACT ===== -->
+  <section class="cta section" id="contact">
+    <div class="cta__card reveal">
+      <h2>Ready To <em>Disobey Physics?</em></h2>
+      <p>Reserve your build with a fully-refundable deposit. First deliveries Q2 2027.</p>
+      <form class="cta__form" id="reserveForm">
+        <input type="email" placeholder="your@email.com" required aria-label="Email" />
+        <button type="submit" class="btn btn--primary">Reserve — $1,000</button>
+      </form>
+      <p class="cta__note" id="formNote"></p>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <a class="nav__logo" href="#top">V<span>Ω</span>LCE</a>
+        <p>Precision-built electric hypercars.<br/>Engineered where physics says no.</p>
+      </div>
+      <div>
+        <h5>Models</h5>
+        <a href="#models">Veloce GT-R</a>
+        <a href="#models">Apex S</a>
+        <a href="#models">Volt R</a>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <a href="#showcase">Configurator</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#reviews">Reviews</a>
+      </div>
+      <div>
+        <h5>Connect</h5>
+        <a href="#">Instagram</a>
+        <a href="#">X / Twitter</a>
+        <a href="#">YouTube</a>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 Veloce Motors. Fictional demo — no real vehicles were harmed.</span>
+      <a href="#top" class="to-top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

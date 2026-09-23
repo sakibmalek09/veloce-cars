@@ -189,9 +189,9 @@
       // Pixel-perfect repaint: body panels + calipers read the --paint variable
       car.style.setProperty("--paint", sw.dataset.color);
       nameEl.textContent = sw.dataset.name;
-      // Bright finishes also tint the colour name and the CTA gradient;
-      // dark ones keep the brand red so text/buttons stay visible.
-      const legible = lum > 80 ? sw.dataset.color : "";
+      // Every finish except near-black tints the colour name and the CTA
+      // gradient; Midnight Black keeps the default so text stays visible.
+      const legible = lum > 25 ? sw.dataset.color : "";
       nameEl.style.color = legible;
       stage.closest(".configurator").style.setProperty("--paint-accent", legible);
       stage.style.setProperty("--halo", sw.dataset.color + "55");

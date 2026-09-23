@@ -891,7 +891,12 @@ html.is-loading { overflow: hidden; }
   font-size: clamp(1.6rem, 3vw, 2.2rem);
   font-weight: 700;
   margin-bottom: 4px;
-  transition: color 0.5s;
+  transition: color 0.5s, text-shadow 0.5s;
+}
+
+/* Deeper paints get a soft halo so the heading stays readable on the dark panel */
+.configurator__panel h3.configurator__model[style*="color"] {
+  text-shadow: 0 0 22px color-mix(in srgb, currentColor 45%, transparent);
 }
 
 .configurator__hint {

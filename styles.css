@@ -45,6 +45,31 @@ button { font: inherit; cursor: pointer; }
 ::-webkit-scrollbar-thumb { background: #23272c; border-radius: 8px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
+/* ---------- Keyboard focus & skip link ---------- */
+/* A visible ring for keyboard users only; pointer clicks stay clean.
+   The outline follows each element's border-radius automatically. */
+:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 2000;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transform: translateY(-240%);
+  transition: transform 0.3s var(--ease-out);
+}
+
+.skip-link:focus { transform: translateY(0); }
+
 /* ---------- Utilities ---------- */
 .section { padding: clamp(72px, 10vw, 140px) 0; }
 
@@ -115,40 +140,169 @@ button { font: inherit; cursor: pointer; }
 .btn--sm { padding: 10px 22px; font-size: 0.85rem; }
 
 /* ============================================================
-   PRELOADER
+   PRELOADER — curtain reveal
    ============================================================ */
+
+/* Lock scrolling while the curtain is down */
+html.is-loading { overflow: hidden; }
+
+/* Hold the hero's entrance choreography until the curtain lifts, so the
+   reveal plays *to* the visitor instead of finishing behind the panel. */
+.is-loading .hero__video,
+.is-loading .hero__eyebrow,
+.is-loading .hero__title .line > span,
+.is-loading .hero__sub,
+.is-loading .hero__cta,
+.is-loading .hero__stats,
+.is-loading .hero__scroll {
+  animation-play-state: paused;
+}
+
 .preloader {
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: var(--bg);
   display: grid;
   place-items: center;
-  transition: opacity 0.6s ease, visibility 0.6s;
+  overflow: hidden;
+  background: var(--bg);
 }
 
-.preloader.is-done { opacity: 0; visibility: hidden; }
+.preloader.is-done { pointer-events: none; }
 
-.preloader__ring {
+/* Two half-panels that part like a curtain */
+.preloader__panel {
   position: absolute;
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.08);
-  border-top-color: var(--accent);
-  animation: spin 1s linear infinite;
+  left: 0;
+  width: 100%;
+  height: calc(50% + 1px);
+  background: var(--bg);
+  transition: transform 1.05s cubic-bezier(0.76, 0, 0.24, 1);
+  will-change: transform;
 }
 
-.preloader__text {
+.preloader__panel--top { top: 0; }
+.preloader__panel--bottom { bottom: 0; }
+
+/* Single halo straddling the seam — symmetric, and fades as the curtain parts */
+.preloader__glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  width: min(920px, 130vw);
+  height: 480px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(closest-side, rgba(225, 6, 0, 0.22), transparent 74%);
+  transition: opacity 0.6s ease;
+}
+
+/* Light seam that flares across the split point */
+.preloader__seam {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  opacity: 0;
+  transform: translateY(-50%) scaleX(0);
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+}
+
+.preloader__inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  transition: opacity 0.4s ease, transform 0.55s var(--ease-out);
+}
+
+.preloader__brand {
+  display: flex;
+  padding-left: 0.2em; /* balance the trailing letter-spacing */
   font-family: var(--font-display);
   font-weight: 700;
-  letter-spacing: 0.4em;
-  font-size: 1.1rem;
-  animation: pulse 1.4s ease-in-out infinite;
+  font-size: clamp(1.9rem, 7vw, 3.2rem);
+  line-height: 1;
+  letter-spacing: 0.2em;
 }
 
-@keyframes spin { to { transform: rotate(360deg); } }
-@keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+.preloader__brand span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(115%);
+  animation: preRise 0.9s var(--ease-out) forwards;
+}
+
+.preloader__brand span:nth-child(1) { animation-delay: 0.10s; }
+.preloader__brand span:nth-child(2) { animation-delay: 0.19s; }
+.preloader__brand span:nth-child(3) { animation-delay: 0.28s; }
+.preloader__brand span:nth-child(4) { animation-delay: 0.37s; }
+.preloader__brand span:nth-child(5) { animation-delay: 0.46s; }
+
+.preloader__omega { color: var(--accent); }
+
+@keyframes preRise { to { opacity: 1; transform: translateY(0); } }
+
+.preloader__bar {
+  width: min(288px, 62vw);
+  height: 2px;
+  margin: 30px 0 12px;
+  overflow: hidden;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.preloader__bar i {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--accent), #ff7a5e);
+  box-shadow: 0 0 16px rgba(225, 6, 0, 0.75);
+  transition: width 0.3s linear;
+}
+
+.preloader__meta {
+  display: flex;
+  justify-content: space-between;
+  width: min(288px, 62vw);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.38);
+}
+
+.preloader__meta #preloaderPct {
+  color: var(--accent);
+  letter-spacing: 0.12em;
+}
+
+/* ---- exit: content lifts away, seam flares, panels part ---- */
+.preloader.is-done .preloader__inner {
+  opacity: 0;
+  transform: translateY(-16px) scale(0.98);
+}
+
+.preloader.is-done .preloader__seam {
+  animation: seamBurst 1.15s var(--ease-out) forwards;
+}
+
+@keyframes seamBurst {
+  0% { opacity: 0; transform: translateY(-50%) scaleX(0); }
+  16% { opacity: 1; transform: translateY(-50%) scaleX(1); }
+  100% { opacity: 0; transform: translateY(-50%) scaleX(1); }
+}
+
+.preloader.is-done .preloader__glow { opacity: 0; }
+
+.preloader.is-done .preloader__panel {
+  transition-delay: 0.16s;
+}
+
+.preloader.is-done .preloader__panel--top { transform: translateY(-101%); }
+.preloader.is-done .preloader__panel--bottom { transform: translateY(101%); }
 
 /* ============================================================
    CUSTOM CURSOR (desktop only)
@@ -275,10 +429,16 @@ button { font: inherit; cursor: pointer; }
   gap: 12px;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.4s ease, visibility 0.4s;
+  /* Visibility is held until the fade-out ends on close, but flips at once on
+     open — a transitioned `visibility` would leave the links unfocusable. */
+  transition: opacity 0.4s ease, visibility 0s linear 0.4s;
 }
 
-.mobile-menu.is-open { opacity: 1; visibility: visible; }
+.mobile-menu.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.4s ease, visibility 0s;
+}
 
 .mobile-menu a {
   font-family: var(--font-display);
@@ -306,6 +466,10 @@ button { font: inherit; cursor: pointer; }
   display: flex;
   align-items: center;
   overflow: hidden;
+  /* Sits behind the video/poster so a slow or failed source never reads as a void */
+  background:
+    radial-gradient(120% 90% at 15% 88%, rgba(225, 6, 0, 0.26), transparent 62%),
+    linear-gradient(160deg, #0b0d10 0%, #050607 55%, #0a0b0d 100%);
 }
 
 .hero__video {
@@ -806,13 +970,15 @@ button { font: inherit; cursor: pointer; }
 .spec p { color: var(--muted); font-size: 0.88rem; }
 
 /* ---------- Reveal on scroll ---------- */
-.reveal {
+/* Armed only under `has-js`, so if the script never runs the content is
+   simply visible rather than permanently stuck at opacity 0. */
+.has-js .reveal {
   opacity: 0;
   transform: translateY(36px);
   transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
 }
 
-.reveal.is-visible { opacity: 1; transform: translateY(0); }
+.has-js .reveal.is-visible { opacity: 1; transform: translateY(0); }
 
 /* ============================================================
    GALLERY

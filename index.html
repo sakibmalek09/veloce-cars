@@ -19,17 +19,70 @@
   <meta name="twitter:description" content="1,200 hp of pure electric fury. 0–100 km/h in 1.9s. Configure your Veloce in six finishes." />
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1200&h=630&fit=crop&q=80" />
 
+  <link rel="canonical" href="https://sakibmalek09.github.io/veloce-cars/" />
+  <meta property="og:url" content="https://sakibmalek09.github.io/veloce-cars/" />
+
+  <!-- Hero still, fetched with high priority so the first paint has it ready -->
+  <link rel="preload" as="image" fetchpriority="high"
+    href="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1920&q=80" />
+
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <!-- Applied before first paint so the hero entrance waits for the curtain.
+       Second half is a failsafe: if main.js never runs, release the lock on
+       its own so the page can't be left scrolled-locked and frozen. -->
+  <script>
+    (function () {
+      var root = document.documentElement;
+      // `has-js` arms the scroll-reveal styles; without it (script blocked or
+      // disabled) the content stays visible instead of being stuck at opacity 0.
+      root.classList.add("is-loading", "has-js");
+      setTimeout(function () {
+        var pre = document.getElementById("preloader");
+        if (pre) pre.remove();
+        root.classList.remove("is-loading");
+      }, 8000);
+    })();
+  </script>
+
+  <!-- Structured data for search engines -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Veloce Motors",
+      "alternateName": "VELOCE",
+      "url": "https://sakibmalek09.github.io/veloce-cars/",
+      "logo": "https://sakibmalek09.github.io/veloce-cars/favicon.svg",
+      "description": "Precision-built electric hypercars. 1,200 hp, 0–100 km/h in 1.9s."
+    }
+  </script>
 </head>
 <body>
-  <!-- ===== PRELOADER ===== -->
-  <div class="preloader" id="preloader">
-    <div class="preloader__ring"></div>
-    <div class="preloader__text">VELOCE</div>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ===== PRELOADER — curtain reveal ===== -->
+  <div class="preloader" id="preloader" role="status" aria-label="Loading VELOCE">
+    <span class="preloader__panel preloader__panel--top"></span>
+    <span class="preloader__panel preloader__panel--bottom"></span>
+    <span class="preloader__glow"></span>
+    <span class="preloader__seam"></span>
+
+    <div class="preloader__inner">
+      <div class="preloader__brand" aria-hidden="true">
+        <span>V</span><span class="preloader__omega">Ω</span><span>L</span><span>C</span><span>E</span>
+      </div>
+
+      <div class="preloader__bar"><i id="preloaderFill"></i></div>
+
+      <div class="preloader__meta">
+        <span>Igniting</span>
+        <span id="preloaderPct">0%</span>
+      </div>
+    </div>
   </div>
 
   <!-- ===== CUSTOM CURSOR ===== -->
@@ -48,19 +101,22 @@
       <a href="#contact" class="btn btn--sm">Reserve</a>
     </nav>
 
-    <button class="nav__burger" id="burger" aria-label="Menu">
+    <button class="nav__burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu">
       <span></span><span></span><span></span>
     </button>
   </header>
 
   <!-- ===== MOBILE MENU ===== -->
-  <div class="mobile-menu" id="mobileMenu">
+  <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile">
     <a href="#models">Models</a>
     <a href="#specs">Performance</a>
     <a href="#gallery">Gallery</a>
     <a href="#reviews">Reviews</a>
     <a href="#contact" class="btn">Reserve Now</a>
-  </div>
+  </nav>
+  <!-- ===== MAIN ===== -->
+  <main id="main">
+
   <!-- ===== HERO ===== -->
   <section class="hero" id="top">
     <video class="hero__video" autoplay muted loop playsinline
@@ -89,7 +145,7 @@
       </div>
     </div>
 
-    <div class="hero__scroll">
+    <div class="hero__scroll" aria-hidden="true">
       <span></span>Scroll
     </div>
   </section>
@@ -114,7 +170,7 @@
       <article class="model-card" data-model="gtr" data-tilt>
         <div class="model-card__visual">
           <div class="model-card__glow"></div>
-          <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=900&q=80" alt="Veloce GT-R hypercar" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=900&q=80" alt="Veloce GT-R hypercar" loading="lazy" decoding="async" />
         </div>
         <div class="model-card__body">
           <div class="model-card__head">
@@ -138,7 +194,7 @@
       <article class="model-card" data-model="apex" data-tilt>
         <div class="model-card__visual">
           <div class="model-card__glow"></div>
-          <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=900&q=80" alt="Apex S grand tourer" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=900&q=80" alt="Apex S grand tourer" loading="lazy" decoding="async" />
         </div>
         <div class="model-card__body">
           <div class="model-card__head">
@@ -162,7 +218,7 @@
       <article class="model-card" data-model="volt" data-tilt>
         <div class="model-card__visual">
           <div class="model-card__glow"></div>
-          <img src="https://images.unsplash.com/photo-1493238792000-8113da705763?w=900&q=80" alt="Volt R track edition" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1493238792000-8113da705763?w=900&q=80" alt="Volt R track edition" loading="lazy" decoding="async" />
         </div>
         <div class="model-card__body">
           <div class="model-card__head">
@@ -306,13 +362,13 @@
       <div class="configurator__panel">
         <h3 class="configurator__model" id="configName">Midnight Black</h3>
         <p class="configurator__hint">Select a finish</p>
-        <div class="swatches">
-          <button class="swatch is-active" data-color="#0b0d10" data-name="Midnight Black" style="--c:#0b0d10"></button>
-          <button class="swatch" data-color="#c1121f" data-name="Inferno Red" style="--c:#c1121f"></button>
-          <button class="swatch" data-color="#1e3a8a" data-name="Riviera Blue" style="--c:#1e3a8a"></button>
-          <button class="swatch" data-color="#e8e8e8" data-name="Glacier White" style="--c:#f2f2f2"></button>
-          <button class="swatch" data-color="#22c55e" data-name="Toxic Green" style="--c:#22c55e"></button>
-          <button class="swatch" data-color="#f59e0b" data-name="Solar Orange" style="--c:#f59e0b"></button>
+        <div class="swatches" role="group" aria-label="Choose a paint finish">
+          <button class="swatch is-active" data-color="#0b0d10" data-name="Midnight Black" aria-label="Midnight Black" aria-pressed="true" style="--c:#0b0d10"></button>
+          <button class="swatch" data-color="#c1121f" data-name="Inferno Red" aria-label="Inferno Red" aria-pressed="false" style="--c:#c1121f"></button>
+          <button class="swatch" data-color="#1e3a8a" data-name="Riviera Blue" aria-label="Riviera Blue" aria-pressed="false" style="--c:#1e3a8a"></button>
+          <button class="swatch" data-color="#e8e8e8" data-name="Glacier White" aria-label="Glacier White" aria-pressed="false" style="--c:#f2f2f2"></button>
+          <button class="swatch" data-color="#22c55e" data-name="Toxic Green" aria-label="Toxic Green" aria-pressed="false" style="--c:#22c55e"></button>
+          <button class="swatch" data-color="#f59e0b" data-name="Solar Orange" aria-label="Solar Orange" aria-pressed="false" style="--c:#f59e0b"></button>
         </div>
         <div class="configurator__meta">
           <div><span id="configPrice">$289,000</span><small>Est. price</small></div>
@@ -362,12 +418,12 @@
     </div>
 
     <div class="gallery__grid">
-      <figure class="gallery__item reveal"><img src="https://images.unsplash.com/photo-1494905998402-395d579af36f?w=900&q=80" alt="Car front detail" loading="lazy" /></figure>
-      <figure class="gallery__item reveal"><img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=900&q=80" alt="Interior cockpit" loading="lazy" /></figure>
-      <figure class="gallery__item reveal"><img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=900&q=80" alt="Rear at night" loading="lazy" /></figure>
-      <figure class="gallery__item reveal"><img src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=900&q=80" alt="Wheel detail" loading="lazy" /></figure>
-      <figure class="gallery__item reveal"><img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?w=900&q=80" alt="On mountain road" loading="lazy" /></figure>
-      <figure class="gallery__item reveal"><img src="https://images.unsplash.com/photo-1542282088-fe8426682b8f?w=900&q=80" alt="Studio shot" loading="lazy" /></figure>
+      <figure class="gallery__item reveal"><img src="https://images.unsplash.com/photo-1494905998402-395d579af36f?w=900&q=80" alt="Car front detail" loading="lazy" decoding="async" /></figure>
+      <figure class="gallery__item reveal"><img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=900&q=80" alt="Interior cockpit" loading="lazy" decoding="async" /></figure>
+      <figure class="gallery__item reveal"><img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=900&q=80" alt="Rear at night" loading="lazy" decoding="async" /></figure>
+      <figure class="gallery__item reveal"><img src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=900&q=80" alt="Wheel detail" loading="lazy" decoding="async" /></figure>
+      <figure class="gallery__item reveal"><img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?w=900&q=80" alt="On mountain road" loading="lazy" decoding="async" /></figure>
+      <figure class="gallery__item reveal"><img src="https://images.unsplash.com/photo-1542282088-fe8426682b8f?w=900&q=80" alt="Studio shot" loading="lazy" decoding="async" /></figure>
     </div>
   </section>
 
@@ -413,9 +469,11 @@
         <input type="email" placeholder="your@email.com" required aria-label="Email" />
         <button type="submit" class="btn btn--primary">Reserve — $1,000</button>
       </form>
-      <p class="cta__note" id="formNote"></p>
+      <p class="cta__note" id="formNote" role="status" aria-live="polite"></p>
     </div>
   </section>
+
+  </main>
 
   <!-- ===== FOOTER ===== -->
   <footer class="footer">

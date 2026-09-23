@@ -11,15 +11,79 @@
   const $$ = (s, c = document) => [...c.querySelectorAll(s)];
   const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* ---------- Preloader ---------- */
+  /* ---------- Preloader — curtain reveal ---------- */
+  const rootEl = document.documentElement;
   const preloader = $("#preloader");
-  const hidePreloader = () => {
-    if (!preloader) return;
-    preloader.classList.add("is-done");
-    setTimeout(() => preloader.remove(), 800);
-  };
-  window.addEventListener("load", () => setTimeout(hidePreloader, 900));
-  setTimeout(hidePreloader, 4000); // safety net
+
+  if (preloader) {
+    if (prefersReduced) {
+      // No theatrics: drop the curtain immediately.
+      preloader.remove();
+      rootEl.classList.remove("is-loading");
+    } else {
+      const fill = $("#preloaderFill");
+      const pct = $("#preloaderPct");
+      const MIN_MS = 1500;   // floor, so the sequence reads as intentional
+      const start = performance.now();
+      let ready = false;
+      let shown = 0;
+      let settled = false;
+      let timer = null;
+
+      const markReady = () => { ready = true; };
+
+      if (document.readyState === "complete") markReady();
+      else window.addEventListener("load", markReady, { once: true });
+
+      // Don't hold the curtain for slow third-party media (hero video, poster,
+      // web fonts). For a static page a short grace after DOM is plenty.
+      const graceAfterDom = () => setTimeout(markReady, 2000);
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", graceAfterDom, { once: true });
+      } else {
+        graceAfterDom();
+      }
+
+      // Absolute cap — a stalled subresource must never trap the visitor.
+      setTimeout(markReady, 5000);
+
+      const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+      const paint = (value) => {
+        shown = Math.max(shown, value);
+        if (fill) fill.style.width = shown + "%";
+        if (pct) pct.textContent = Math.round(shown) + "%";
+      };
+
+      const reveal = () => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timer);
+        paint(100);
+        // Beat of stillness at 100%, then lift the curtain.
+        setTimeout(() => {
+          preloader.classList.add("is-done");
+          // Releasing this resumes the hero entrance and unlocks scrolling.
+          rootEl.classList.remove("is-loading");
+          setTimeout(() => preloader.remove(), 1500);
+        }, 320);
+      };
+
+      // Driven by a timer, not rAF: progress must still advance when the tab
+      // is backgrounded or the page is not being composited.
+      const step = () => {
+        if (settled) return;
+        const t = Math.min((performance.now() - start) / MIN_MS, 1);
+        // Stall at 92% until the page is actually ready to be seen.
+        paint(easeOutCubic(t) * (ready ? 100 : 92));
+
+        if (t >= 1 && ready) return reveal();
+        timer = setTimeout(step, 50);
+      };
+
+      step();
+    }
+  }
 
   /* ---------- Custom cursor ---------- */
   const dot = $("#cursorDot");
@@ -52,13 +116,28 @@
   const burger = $("#burger");
   const mobileMenu = $("#mobileMenu");
   if (burger && mobileMenu) {
+    const isOpen = () => mobileMenu.classList.contains("is-open");
     const toggle = (open) => {
       burger.classList.toggle("is-open", open);
       mobileMenu.classList.toggle("is-open", open);
+      burger.setAttribute("aria-expanded", String(open));
       document.body.style.overflow = open ? "hidden" : "";
+      // Move focus with the menu so keyboard and screen-reader users follow it.
+      // Safe to do synchronously: the panel's visibility flips immediately on
+      // open (see .mobile-menu in styles.css).
+      if (open) $$("a", mobileMenu)[0]?.focus();
+      else if (mobileMenu.contains(document.activeElement)) burger.focus();
     };
-    burger.addEventListener("click", () => toggle(!mobileMenu.classList.contains("is-open")));
+    burger.addEventListener("click", () => toggle(!isOpen()));
     $$("a", mobileMenu).forEach((a) => a.addEventListener("click", () => toggle(false)));
+
+    // Escape closes it, and it must not linger open past the responsive breakpoint.
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && isOpen()) toggle(false);
+    });
+    window.addEventListener("resize", () => {
+      if (isOpen() && window.innerWidth > 768) toggle(false);
+    });
   }
 
   /* ---------- Scroll reveal ---------- */
@@ -102,6 +181,8 @@
       if (!sw) return;
       $(".swatch.is-active")?.classList.remove("is-active");
       sw.classList.add("is-active");
+      // The swatches are colour-only, so expose the choice to assistive tech.
+      $$(".swatch").forEach((b) => b.setAttribute("aria-pressed", String(b === sw)));
       // Pixel-perfect repaint: body panels + calipers read the --paint variable
       car.style.setProperty("--paint", sw.dataset.color);
       nameEl.textContent = sw.dataset.name;
@@ -129,6 +210,7 @@
     const dotsWrap = $("#sliderDots");
     let index = 0;
     let timer;
+    let paused = false;
 
     reviews.forEach((_, i) => {
       const b = document.createElement("button");
@@ -140,13 +222,34 @@
 
     function goTo(i) {
       index = (i + reviews.length) % reviews.length;
-      reviews.forEach((r, k) => r.classList.toggle("is-active", k === index));
-      dots.forEach((d, k) => d.classList.toggle("is-active", k === index));
+      reviews.forEach((r, k) => {
+        r.classList.toggle("is-active", k === index);
+        // Reviews are stacked and only one is on screen, so keep the others
+        // out of the accessibility tree instead of reading all three.
+        r.setAttribute("aria-hidden", String(k !== index));
+      });
+      dots.forEach((d, k) => {
+        d.classList.toggle("is-active", k === index);
+        d.setAttribute("aria-current", String(k === index));
+      });
       restart();
     }
     function restart() {
       clearInterval(timer);
-      if (!prefersReduced) timer = setInterval(() => goTo(index + 1), 5500);
+      if (!prefersReduced && !paused) timer = setInterval(() => goTo(index + 1), 5500);
+    }
+
+    // Auto-rotation has to be interruptible (WCAG 2.2.2) — hold it while the
+    // carousel is hovered or holds keyboard focus.
+    const slider = $("#reviewSlider");
+    if (slider) {
+      const hold = (on) => { paused = on; restart(); };
+      slider.addEventListener("mouseenter", () => hold(true));
+      slider.addEventListener("mouseleave", () => hold(false));
+      slider.addEventListener("focusin", () => hold(true));
+      slider.addEventListener("focusout", (e) => {
+        if (!slider.contains(e.relatedTarget)) hold(false);
+      });
     }
 
     $("#prevReview").addEventListener("click", () => goTo(index - 1));

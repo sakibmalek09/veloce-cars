@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sakibmalek09.github.io/veloce-cars/sitemap.xml

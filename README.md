@@ -11,12 +11,19 @@ hypercars brand. Pure HTML + CSS + vanilla JS — no build step, no frameworks.
 
 ## ✨ Features
 
+- **Curtain preloader** — two-panel split reveal with a real progress bar that
+  never traps a visitor (DOM grace + absolute timeout, bails out entirely under
+  `prefers-reduced-motion`)
 - **Animated video hero** — staggered title reveal, Ken Burns zoom, parallax fade on scroll
 - **Live paint configurator** — six finishes repaint the car via color-blend layering
 - **Scroll-triggered reveals** and animated stat counters (1,200 hp / 1.9 s / 402 km/h)
 - **3D tilt model cards**, infinite specs marquee, auto-rotating testimonial slider
 - **Custom cursor** (desktop), animated mobile menu, fully responsive to 360px
-- Respects `prefers-reduced-motion`; Open Graph + Twitter card tags; SVG favicon
+- **Accessible** — skip-to-content link, ARIA labelling throughout, keyboard-friendly
+  carousel (WCAG 2.2.2), `aria-live` form feedback, and a no-JS failsafe so content
+  is never left invisible when scripts don't run
+- **SEO / social** — Open Graph + Twitter cards, JSON-LD structured data, canonical
+  URL, plus `robots.txt` and `sitemap.xml`
 
 ## 🗂 Project structure
 
@@ -24,7 +31,11 @@ hypercars brand. Pure HTML + CSS + vanilla JS — no build step, no frameworks.
 ├── index.html      # Full landing page
 ├── styles.css      # Dark theme, animations, responsive breakpoints
 ├── main.js         # All interactions (vanilla JS)
-└── favicon.svg     # Brand mark
+├── favicon.svg     # Brand mark
+├── robots.txt      # Crawler rules + sitemap pointer
+├── sitemap.xml     # Single-URL sitemap
+└── .github/
+    └── workflows/deploy-pages.yml   # Auto-deploy to GitHub Pages
 ```
 
 ## 🖥 Run locally

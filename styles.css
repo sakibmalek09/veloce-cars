@@ -73,6 +73,23 @@ button { font: inherit; cursor: pointer; }
 /* ---------- Utilities ---------- */
 .section { padding: clamp(72px, 10vw, 140px) 0; }
 
+/* ---------- Bootstrap-style containers (native, zero-dependency) ----------
+   Centered, width-capped column the way Bootstrap's .container works:
+   fluid below each breakpoint, then capped — so 25% zoom (huge viewports)
+   can't stretch content edge-to-edge. */
+.container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: clamp(20px, 5vw, 60px);
+  max-width: 1320px;
+}
+
+@media (min-width: 576px)  { .container { max-width: 540px; } }
+@media (min-width: 768px)  { .container { max-width: 720px; } }
+@media (min-width: 992px)  { .container { max-width: 960px; } }
+@media (min-width: 1200px) { .container { max-width: 1140px; } }
+@media (min-width: 1400px) { .container { max-width: 1320px; } }
+
 .section-head {
   max-width: 720px;
   margin: 0 auto clamp(40px, 6vw, 72px);
@@ -361,18 +378,25 @@ html.is-loading { overflow: hidden; }
   z-index: 100;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 20px clamp(20px, 5vw, 60px);
   transition: background 0.4s, padding 0.4s, border-color 0.4s;
   border-bottom: 1px solid transparent;
+  padding: 0;
 }
+
+.nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 20px;
+  transition: padding 0.4s;
+}
+
+.nav.is-scrolled .nav__inner { padding-block: 12px; }
 
 .nav.is-scrolled {
   background: rgba(5, 6, 7, 0.75);
   backdrop-filter: blur(16px);
   border-bottom-color: var(--line);
-  padding-top: 12px;
-  padding-bottom: 12px;
 }
 
 .nav__logo {
@@ -511,8 +535,10 @@ html.is-loading { overflow: hidden; }
 .hero__content {
   position: relative;
   z-index: 2;
-  padding: 120px clamp(20px, 6vw, 80px) 60px;
-  max-width: 1400px;
+  width: 100%;
+  max-width: 1320px;
+  margin-inline: auto;
+  padding: 120px clamp(20px, 5vw, 60px) 60px;
 }
 
 .hero__eyebrow {

@@ -121,10 +121,24 @@ button { font: inherit; cursor: pointer; }
 .btn--primary {
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
   color: #fff;
-  box-shadow: 0 8px 30px rgba(225, 6, 0, 0.35);
+  box-shadow: 0 8px 30px color-mix(in srgb, var(--accent) 40%, transparent);
 }
 
-.btn--primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 14px 44px rgba(225, 6, 0, 0.5); }
+.btn--primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 14px 44px color-mix(in srgb, var(--accent) 55%, transparent); }
+
+/* Inside the configurator the CTA adopts the selected paint. The stage JS
+   sets --paint-accent only for finishes bright enough to stay legible, so
+   near-black paints fall back to the brand red here. */
+.configurator .btn--primary {
+  background: linear-gradient(135deg, var(--paint-accent, var(--accent)), var(--accent-2));
+}
+
+.configurator .btn--primary:hover,
+.configurator .btn--primary:focus-visible {
+  box-shadow: 0 14px 44px color-mix(in srgb, var(--paint-accent, var(--accent)) 55%, transparent);
+}
+
+.configurator .btn--primary:focus-visible { outline-color: var(--paint-accent, var(--accent-2)); }
 
 .btn--ghost {
   background: rgba(255, 255, 255, 0.04);
@@ -899,8 +913,8 @@ html.is-loading { overflow: hidden; }
 .swatch:hover { transform: scale(1.12); }
 
 .swatch.is-active {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 4px rgba(225, 6, 0, 0.2), 0 0 24px var(--c);
+  border-color: var(--c);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--c) 25%, transparent), 0 0 24px var(--c);
   transform: scale(1.08);
 }
 

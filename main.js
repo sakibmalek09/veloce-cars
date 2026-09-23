@@ -183,13 +183,17 @@
       sw.classList.add("is-active");
       // The swatches are colour-only, so expose the choice to assistive tech.
       $$(".swatch").forEach((b) => b.setAttribute("aria-pressed", String(b === sw)));
+      const c = sw.dataset.color.replace("#", "");
+      const [r, g, b] = [0, 2, 4].map((i) => parseInt(c.slice(i, i + 2), 16));
+      const lum = (r * 299 + g * 587 + b * 114) / 1000;
       // Pixel-perfect repaint: body panels + calipers read the --paint variable
       car.style.setProperty("--paint", sw.dataset.color);
       nameEl.textContent = sw.dataset.name;
-      // only tint the title when the paint is bright enough to stay readable
-      const c = sw.dataset.color.replace("#", "");
-      const [r, g, b] = [0, 2, 4].map((i) => parseInt(c.slice(i, i + 2), 16));
-      nameEl.style.color = (r * 299 + g * 587 + b * 114) / 1000 > 80 ? sw.dataset.color : "";
+      // Bright finishes also tint the colour name and the CTA gradient;
+      // dark ones keep the brand red so text/buttons stay visible.
+      const legible = lum > 80 ? sw.dataset.color : "";
+      nameEl.style.color = legible;
+      stage.closest(".configurator").style.setProperty("--paint-accent", legible);
       stage.style.setProperty("--halo", sw.dataset.color + "55");
       stage.classList.add("is-painted");
       // sheen sweep + subtle bounce on repaint

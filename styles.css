@@ -545,7 +545,7 @@ html.is-loading { overflow: hidden; }
 .hero__title .accent {
   color: transparent;
   -webkit-text-stroke: 2px var(--accent);
-  text-stroke: 2px var(--accent);
+  text-shadow: 0 0 18px color-mix(in srgb, var(--accent) 40%, transparent);
 }
 
 @keyframes lineUp { to { transform: translateY(0); } }
